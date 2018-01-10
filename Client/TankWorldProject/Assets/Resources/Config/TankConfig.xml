@@ -1,0 +1,17 @@
+<tanks>
+    <tank id="1" title="轰天霸王" blood="120" attack="50" speed="2">
+	  <desc>投射威力极强的炮弹，具有大面积杀伤能力，攻击距离可控。</desc>
+	</tank>
+	
+	<tank id="2" title="烈焰使者" blood="120" attack="25" speed="2" >
+	  <desc>持续喷射火焰，短兵相接的利器，以较快的速度恢复消耗的火能。</desc>
+	</tank>
+	
+	<tank id="3" title="呆头呆脑" blood="120" attack="25" speed="2" >
+	  <desc>持续喷射火焰，短兵相接的利器，以较快的速度恢复消耗的火能。</desc>
+	</tank>
+	
+	<tank id="4" title="ceshi" blood="120" attack="25" speed="2" >
+	  <desc>haha</desc>
+	</tank>
+</tanks>
