@@ -69,9 +69,9 @@
       <badWordsFilter isActive="false"/>
       <roomVariables/>
       <extension>
-        <name></name>
+        <name>java</name>
         <type>JAVA</type>
-        <file></file>
+        <file>com.tw.lobby.LobbyExtension</file>
         <propertiesFile></propertiesFile>
         <reloadMode>AUTO</reloadMode>
       </extension>
@@ -123,6 +123,123 @@
       </mmoSettings>
       <allowOwnerInvitation>true</allowOwnerInvitation>
     </room>
+    
+    
+     <room>
+      <name>game1</name>
+      <groupId>default</groupId>
+      <password></password>
+      <maxUsers>20</maxUsers>
+      <maxSpectators>0</maxSpectators>
+      <isDynamic>false</isDynamic>
+      <isGame>false</isGame>
+      <isHidden>false</isHidden>
+      <autoRemoveMode>DEFAULT</autoRemoveMode>
+      <permissions>
+        <flags>PASSWORD_STATE_CHANGE,PUBLIC_MESSAGES</flags>
+        <maxRoomVariablesAllowed>10</maxRoomVariablesAllowed>
+      </permissions>
+      <events>USER_ENTER_EVENT,USER_EXIT_EVENT,USER_COUNT_CHANGE_EVENT,USER_VARIABLES_UPDATE_EVENT</events>
+      <badWordsFilter isActive="false"/>
+      <roomVariables/>
+      <extension>
+        <name></name>
+        <type>JAVA</type>
+        <file></file>
+        <propertiesFile></propertiesFile>
+        <reloadMode>AUTO</reloadMode>
+      </extension>
+      <mmoSettings>
+        <isActive>false</isActive>
+        <defaultAOI>100,100,0</defaultAOI>
+        <lowerMapLimit></lowerMapLimit>
+        <higherMapLimit></higherMapLimit>
+        <forceFloats>false</forceFloats>
+        <userMaxLimboSeconds>50</userMaxLimboSeconds>
+        <proximityListUpdateMillis>500</proximityListUpdateMillis>
+        <sendAOIEntryPoint>true</sendAOIEntryPoint>
+      </mmoSettings>
+      <allowOwnerInvitation>true</allowOwnerInvitation>
+    </room>
+    
+    
+    
+    <room>
+      <name>game2</name>
+      <groupId>default</groupId>
+      <password></password>
+      <maxUsers>20</maxUsers>
+      <maxSpectators>0</maxSpectators>
+      <isDynamic>false</isDynamic>
+      <isGame>false</isGame>
+      <isHidden>false</isHidden>
+      <autoRemoveMode>DEFAULT</autoRemoveMode>
+      <permissions>
+        <flags>PASSWORD_STATE_CHANGE,PUBLIC_MESSAGES</flags>
+        <maxRoomVariablesAllowed>10</maxRoomVariablesAllowed>
+      </permissions>
+      <events>USER_ENTER_EVENT,USER_EXIT_EVENT,USER_COUNT_CHANGE_EVENT,USER_VARIABLES_UPDATE_EVENT</events>
+      <badWordsFilter isActive="false"/>
+      <roomVariables/>
+      <extension>
+        <name></name>
+        <type>JAVA</type>
+        <file></file>
+        <propertiesFile></propertiesFile>
+        <reloadMode>AUTO</reloadMode>
+      </extension>
+      <mmoSettings>
+        <isActive>false</isActive>
+        <defaultAOI>100,100,0</defaultAOI>
+        <lowerMapLimit></lowerMapLimit>
+        <higherMapLimit></higherMapLimit>
+        <forceFloats>false</forceFloats>
+        <userMaxLimboSeconds>50</userMaxLimboSeconds>
+        <proximityListUpdateMillis>500</proximityListUpdateMillis>
+        <sendAOIEntryPoint>true</sendAOIEntryPoint>
+      </mmoSettings>
+      <allowOwnerInvitation>true</allowOwnerInvitation>
+    </room>
+    
+    
+    <room>
+      <name>game3</name>
+      <groupId>default</groupId>
+      <password></password>
+      <maxUsers>20</maxUsers>
+      <maxSpectators>0</maxSpectators>
+      <isDynamic>false</isDynamic>
+      <isGame>false</isGame>
+      <isHidden>false</isHidden>
+      <autoRemoveMode>DEFAULT</autoRemoveMode>
+      <permissions>
+        <flags>PASSWORD_STATE_CHANGE,PUBLIC_MESSAGES</flags>
+        <maxRoomVariablesAllowed>10</maxRoomVariablesAllowed>
+      </permissions>
+      <events>USER_ENTER_EVENT,USER_EXIT_EVENT,USER_COUNT_CHANGE_EVENT,USER_VARIABLES_UPDATE_EVENT</events>
+      <badWordsFilter isActive="false"/>
+      <roomVariables/>
+      <extension>
+        <name></name>
+        <type>JAVA</type>
+        <file></file>
+        <propertiesFile></propertiesFile>
+        <reloadMode>AUTO</reloadMode>
+      </extension>
+      <mmoSettings>
+        <isActive>false</isActive>
+        <defaultAOI>100,100,0</defaultAOI>
+        <lowerMapLimit></lowerMapLimit>
+        <higherMapLimit></higherMapLimit>
+        <forceFloats>false</forceFloats>
+        <userMaxLimboSeconds>50</userMaxLimboSeconds>
+        <proximityListUpdateMillis>500</proximityListUpdateMillis>
+        <sendAOIEntryPoint>true</sendAOIEntryPoint>
+      </mmoSettings>
+      <allowOwnerInvitation>true</allowOwnerInvitation>
+    </room>
+    
+    
   </rooms>
   <disabledSystemEvents/>
   <privilegeManager active="false">

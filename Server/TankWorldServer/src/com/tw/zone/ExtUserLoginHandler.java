@@ -1,5 +1,6 @@
 package com.tw.zone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -10,6 +11,8 @@ import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.exceptions.SFSErrorCode;
 import com.smartfoxserver.v2.exceptions.SFSErrorData;
 import com.smartfoxserver.v2.exceptions.SFSException;
@@ -19,7 +22,7 @@ import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 
 import utlis.DBManager;
 
-public class ZoneUserLoginHandler extends BaseClientRequestHandler {
+public class ExtUserLoginHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User arg0, ISFSObject arg1) {
@@ -60,11 +63,25 @@ public class ZoneUserLoginHandler extends BaseClientRequestHandler {
 				try {
 					if(resData.getUtfString("nick").length()==0) {
 						trace("用户"+arg0+"登录RoleRoom成功!");
+						//roleRoom.addUser(arg0);
 						this.getApi().joinRoom(arg0, roleRoom);
 					}else {
-						trace("用户"+arg0+"登录Lobby成功!");	
+						
+						//在自身存储角色和呢称
+						SFSUserVariable surole=new SFSUserVariable("role",resData.getInt("role"));
+						SFSUserVariable sunick=new SFSUserVariable("nick",resData.getUtfString("nick"));
+						List<UserVariable> uvs= new ArrayList();
+						uvs.add(surole);
+						uvs.add(sunick);
+						arg0.setVariables(uvs);
+						
+						trace("用户"+arg0+"登录Lobby成功!");
+						//lobby.addUser(arg0);
 						this.getApi().joinRoom(arg0, lobby);
 					}
+					
+					
+					
 				}catch(Exception e) {
 					trace("用户进入 房间失败");
 				}

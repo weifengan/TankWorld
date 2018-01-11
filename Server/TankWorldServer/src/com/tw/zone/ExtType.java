@@ -5,5 +5,6 @@ public class ExtType {
 	public static String UserReg = "UserReg";
 	public static String UpdateRole = "UpdateRole";
 	public static String FetchBoardList="FetchBoardList";
+	public static String JoinGame="JoinGame";
 
 }

@@ -1,5 +1,6 @@
 package com.tw.zone;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -7,11 +8,13 @@ import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.User;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 
 import utlis.DBManager;
 
-public class ZoneUpdateRoleHandler extends BaseClientRequestHandler {
+public class ExtUpdateRoleHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User arg0, ISFSObject arg1) {
@@ -32,6 +35,15 @@ public class ZoneUpdateRoleHandler extends BaseClientRequestHandler {
 					
 					this.getApi().joinRoom(arg0, lobby);
 					trace("成功返回lobby");
+					
+					//在用户身上存储角色id
+					SFSUserVariable surole=new SFSUserVariable("role",role);
+					SFSUserVariable sunick=new SFSUserVariable("nick",nick);
+					List<UserVariable> uvs= new ArrayList();
+					uvs.add(surole);
+					uvs.add(sunick);
+					arg0.setVariables(uvs);
+					
 				}else {
 					outData.putBool("success", false);
 					outData.putUtfString("info", "创建角色昵称失败!");

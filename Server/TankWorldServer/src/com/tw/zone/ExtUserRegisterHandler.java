@@ -13,7 +13,7 @@ import com.smartfoxserver.v2.extensions.BaseServerEventHandler;
 
 import utlis.DBManager;
 
-public class ZoneUserRegisterHandler extends BaseClientRequestHandler {
+public class ExtUserRegisterHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User arg0, ISFSObject arg1) {
