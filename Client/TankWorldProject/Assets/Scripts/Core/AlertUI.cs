@@ -30,6 +30,9 @@ public class AlertUI : BaseUI {
 
             Destroy(this.gameObject);
         });
+
+        //调整层次
+        this.transform.SetAsLastSibling();
        
     }
 

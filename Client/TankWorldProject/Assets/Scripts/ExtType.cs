@@ -8,7 +8,7 @@ public class ExtType  {
     public static string UserReg = "UserReg";
     public static string UpdateRole = "UpdateRole";
     public static string FetchBoardList = "FetchBoardList";
-
+    public static string JoinGame = "JoinGame";
 
 
 }

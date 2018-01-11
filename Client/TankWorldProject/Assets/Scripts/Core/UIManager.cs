@@ -25,6 +25,15 @@ public class UIManager : MonoBehaviour {
     }
 
     private GameObject currentUI = null;
+
+    public void Display(bool isShow=true)
+    {
+        if (currentUI != null)
+        {
+            currentUI.gameObject.SetActive(isShow);
+        }
+    }
+
     private void Awake()
     {
         _instance = this;
@@ -46,6 +55,8 @@ public class UIManager : MonoBehaviour {
         rtf.anchoredPosition = Vector2.zero;
         T tmp = go.AddComponent<T>();
 
+
+
         // RectTransform rtf = tmp.transform as RectTransform;
         //rtf.transform.position = Vector3.one;
         return tmp;
@@ -58,6 +69,7 @@ public class UIManager : MonoBehaviour {
     /// <param name="args">参数列表</param>
     public void SwitchUI(string name, params object[] args)
     {
+        print("switch UI" + name);
         GameObject scene = new GameObject(name);
         RectTransform rtf = scene.AddComponent<RectTransform>();
         //设置UI容器大小
@@ -87,13 +99,14 @@ public class UIManager : MonoBehaviour {
         AlertUI malert = GetNewUI<AlertUI>();
         RectTransform pref = malert.GetComponent<RectTransform>();
         pref.SetParent(root);
+        pref.localPosition = Vector3.zero;
         pref.sizeDelta = new Vector2(Screen.width, Screen.height);
-        pref.anchorMin = Vector2.zero;
-        pref.anchorMax = Vector2.one;
         pref.offsetMin = new Vector2(0, 0);
         pref.offsetMax = new Vector2(0, 0);
         pref.sizeDelta = new Vector2(Screen.width, Screen.height);
         malert.SetData(content, title);
+        pref.localScale = Vector3.one;
+
         return malert;
     }
 
@@ -102,13 +115,14 @@ public class UIManager : MonoBehaviour {
         ConfirmUI malert = GetNewUI<ConfirmUI>();
         RectTransform pref = malert.GetComponent<RectTransform>();
         pref.SetParent(root);
+        pref.localPosition = Vector3.zero;
         pref.sizeDelta = new Vector2(Screen.width, Screen.height);
-        pref.anchorMin = Vector2.zero;
-        pref.anchorMax = Vector2.one;
         pref.offsetMin = new Vector2(0, 0);
         pref.offsetMax = new Vector2(0, 0);
         pref.sizeDelta = new Vector2(Screen.width, Screen.height);
+        pref.localScale = Vector3.one;
         malert.SetData(content, title);
+        
         malert.OnConfirmHandler+= handler;
         return malert;
     }

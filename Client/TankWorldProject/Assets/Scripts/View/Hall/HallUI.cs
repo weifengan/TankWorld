@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using Sfs2X.Entities.Data;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
+using UnityEngine.SceneManagement;
 
 public class HallUI : BaseUI
 {
@@ -16,6 +19,11 @@ public class HallUI : BaseUI
     private Toggle mTlgWinBoard;
 
     private GraphicRaycaster raycaster = null;
+
+    //默认模式
+    private int curMode = 1;
+
+    
     protected override void OnAwake()
     {
         base.OnAwake();
@@ -37,7 +45,24 @@ public class HallUI : BaseUI
         mTlgJingJi.gameObject.AddComponent<HallBoardToggle>().Init(this.Skin.transform.Find("left/content/jingji").gameObject);
         mTlgWinBoard.gameObject.AddComponent<HallBoardToggle>().Init(this.Skin.transform.Find("left/content/shengju").gameObject);
 
+        Global.AddEventListener(ExtType.JoinGame, OnJoinGameHandler);
+
     }
+
+    private void OnJoinGameHandler(NEvent evt)
+    {
+        if (evt.Data.GetBool("success"))
+        {
+           
+            Global.Instance.LoadScene("Game",(string sn)=>{
+                UIManager.GetInstance().SwitchUI("GameUI");
+            });
+            
+
+        }
+
+    }
+
     //是否可以拖动
     private bool isdraging = false;
 
@@ -78,6 +103,27 @@ public class HallUI : BaseUI
         }
 
 
+    }
+
+    protected override void OnClickHandler(GameObject go)
+    {
+        SFSObject data = new SFSObject();
+        base.OnClickHandler(go);
+        switch (go.name)
+        {
+            case "btnClasic"://经典模式
+                curMode = 1;
+                break;
+            case "btnTeam": //组队
+                curMode = 2;
+                break;
+            case "btnLife"://绝地模式
+                curMode = 3;
+
+                break;
+        }
+        data.PutInt("mode", curMode);
+        Global.SendExtRequest(ExtType.JoinGame, data, Global.curRoom);
     }
 
 }

@@ -32,19 +32,12 @@ public class HallBoardToggle : MonoBehaviour {
 
 
         SFSArray list = (SFSArray)evt.Data.GetSFSArray("list");
-        foreach (SFSObject item in list)
-        {
-            print(item.GetUtfString("title"));
-
-        }
-
 
         //获取数据容器
         RectTransform grid = content.transform.Find("scrollRect/grid") as RectTransform;
         RectTransform prefab = content.transform.Find("scrollRect/templete") as RectTransform;
+
         while (grid.childCount > 0){
-
-
             Destroy(grid.GetChild(0).gameObject);
         }
 
@@ -53,6 +46,7 @@ public class HallBoardToggle : MonoBehaviour {
         for (int i = 0; i < count; i++)
         {
             RectTransform item = Instantiate<RectTransform>(prefab, grid);
+            item.gameObject.SetActive(true);
         }
 
 
