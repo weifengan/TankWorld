@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
@@ -13,12 +14,22 @@ public class UIManager : MonoBehaviour {
 
 
     private RectTransform root = null;
+    private GraphicRaycaster raycaster = null;
+
+    public GraphicRaycaster Raycaster
+    {
+        get
+        {
+            return raycaster;
+        }
+    }
 
     private GameObject currentUI = null;
     private void Awake()
     {
         _instance = this;
         root = this.transform.Find("UI").GetComponent<RectTransform>();
+        raycaster = root.GetComponent<GraphicRaycaster>();
         Init();
     }
     // Use this for initialization

@@ -42,10 +42,10 @@ public class CreateRoleUI : BaseUI {
         curTankData = ConfigManager.GetInstance().Tank.Data[curIndex];
 
         txtTip.text = (curIndex+1) + "/" + ConfigManager.GetInstance().Tank.Data.Count;
-
+        
         DisplayModel();
 
-        Global.AddEventListener("setRole", OnUpdateRoleHandler);
+        Global.AddEventListener(ExtType.UpdateRole, OnUpdateRoleHandler);
    }
 
     private void OnUpdateRoleHandler(NEvent evt)
@@ -107,7 +107,7 @@ public class CreateRoleUI : BaseUI {
                 SFSObject data = new SFSObject();
                 data.PutUtfString("nick", inputNick.text.Trim());
                 data.PutInt("role", curTankData.id);
-                Global.SendExtRequest("setRole", data);
+                Global.SendExtRequest(ExtType.UpdateRole, data);
                 break;
         }
 

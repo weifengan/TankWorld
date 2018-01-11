@@ -138,12 +138,6 @@ public class NetManager : MonoBehaviour
         object target = evt.Target;
         string cmd = evt.Type.ToString();
         NEvent e = new NEvent(target, cmd, evt);
-        switch (cmd)
-        {
-            case "connectionLost":
-                UIManager.GetInstance().Alert("与服务器的连接丢失!");
-                break;
-        }
         EventManager.GetInstance().DispatchEvent(e);
     }
 

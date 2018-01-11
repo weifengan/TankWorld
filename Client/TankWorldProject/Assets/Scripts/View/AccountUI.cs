@@ -70,8 +70,8 @@ public class AccountUI : BaseUI
             Type = AccountUIType.Login;
         });
 
-        Global.AddEventListener("dologin", OnLoginResultHandler);
-        Global.AddEventListener("doreg", OnRegResultHandler);
+        Global.AddEventListener(ExtType.UserLogin, OnLoginResultHandler);
+        Global.AddEventListener(ExtType.UserReg, OnRegResultHandler);
         NetManager.GetInstance().Connect(Global.Instance.ServerIP, Global.Instance.ServerPort);
 
     }
@@ -127,7 +127,7 @@ public class AccountUI : BaseUI
                 SFSObject data = new SFSObject();
                 data.PutUtfString("username", loginInptUser.text.Trim());
                 data.PutUtfString("password", loginInptPwd.text.Trim());
-                Global.SendExtRequest("dologin", data);
+                Global.SendExtRequest(ExtType.UserLogin, data);
                 break;
             case "btnReg":
 
@@ -145,7 +145,7 @@ public class AccountUI : BaseUI
                 SFSObject regData = new SFSObject();
                 regData.PutUtfString("username", regInptUser.text.Trim());
                 regData.PutUtfString("password", regInptPwd.text.Trim());
-                Global.SendExtRequest("doreg", regData);
+                Global.SendExtRequest(ExtType.UserReg, regData);
 
                 break;
             case "btn2Reg":
