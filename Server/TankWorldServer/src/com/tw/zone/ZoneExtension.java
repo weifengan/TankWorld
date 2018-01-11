@@ -18,14 +18,13 @@ public class ZoneExtension extends SFSExtension {
 		db=DBManager.GetInstance();
 		db.Init(this.getParentZone().getDBManager());
 		
-		this.addEventHandler(SFSEventType.USER_JOIN_ZONE, SFSUserJoinZoneHandler.class);
-		
 		//添加用户登录扩展请求
-	    this.addRequestHandler("dologin", ZoneUserLoginHandler.class);
-	    this.addRequestHandler("doreg", ZoneUserRegisterHandler.class);
+	    this.addRequestHandler(ExtType.UserLogin, ZoneUserLoginHandler.class);
+	    this.addRequestHandler(ExtType.UserReg, ZoneUserRegisterHandler.class);
 	    
 	    //重呢称检测
-	    this.addRequestHandler("setRole", ZoneSetRoleNickHandler.class);
+	    this.addRequestHandler(ExtType.UpdateRole, ZoneUpdateRoleHandler.class);
+	    this.addRequestHandler(ExtType.FetchBoardList, ExtFetchBoardListHandler.class);
 	    
 		trace("坦克服务器启动成功。。。。。");
        

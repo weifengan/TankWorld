@@ -50,7 +50,7 @@ public class ZoneUserRegisterHandler extends BaseClientRequestHandler {
 					
 				}
 				
-				this.send("doreg",resData, arg0);
+				this.send(ExtType.UserReg,resData, arg0);
 	}
 
 	

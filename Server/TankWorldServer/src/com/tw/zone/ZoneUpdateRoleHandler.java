@@ -11,7 +11,7 @@ import com.smartfoxserver.v2.extensions.BaseClientRequestHandler;
 
 import utlis.DBManager;
 
-public class ZoneSetRoleNickHandler extends BaseClientRequestHandler {
+public class ZoneUpdateRoleHandler extends BaseClientRequestHandler {
 
 	@Override
 	public void handleClientRequest(User arg0, ISFSObject arg1) {
@@ -47,7 +47,7 @@ public class ZoneSetRoleNickHandler extends BaseClientRequestHandler {
 			outData.putUtfString("info", "创建角色昵称失败!");
 		}
 		
-		this.send("setRole",outData, arg0);
+		this.send(ExtType.UpdateRole,outData, arg0);
 	}
 
 }

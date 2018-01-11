@@ -40,7 +40,7 @@ public class ZoneUserLoginHandler extends BaseClientRequestHandler {
 			resData.putUtfString("password",pwd);
 			
 			resData.putUtfString("info", "此账户不存在!");
-			this.send("dologin",resData, arg0);
+			this.send(ExtType.UserLogin,resData, arg0);
 		}else {
 			//取出查到的账户
 			HashMap user=accounts.get(0);
@@ -57,7 +57,6 @@ public class ZoneUserLoginHandler extends BaseClientRequestHandler {
 				arg0.setName(name);
 				Room roleRoom=this.getParentExtension().getParentZone().getRoomByName("roleroom");
 				Room lobby=this.getParentExtension().getParentZone().getRoomByName("lobby");
-				trace(resData.getUtfString("nick").length(),resData.getUtfString("nick"));
 				try {
 					if(resData.getUtfString("nick").length()==0) {
 						trace("用户"+arg0+"登录RoleRoom成功!");
@@ -69,13 +68,13 @@ public class ZoneUserLoginHandler extends BaseClientRequestHandler {
 				}catch(Exception e) {
 					trace("用户进入 房间失败");
 				}
-				this.send("dologin",resData, arg0);
+				this.send(ExtType.UserLogin,resData, arg0);
 			}else {
 				resData.putBool("success", false);
 				resData.putUtfString("username", name);
 				resData.putUtfString("password",pwd);
 				resData.putUtfString("info", "账号或密码错误!");
-				this.send("dologin",resData, arg0);
+				this.send(ExtType.UserLogin,resData, arg0);
 			}
 		}
 	
