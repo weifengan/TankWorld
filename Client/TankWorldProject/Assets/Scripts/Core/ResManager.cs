@@ -13,7 +13,6 @@ public class ResManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        Init();
     }
     //根据类型来缓存资源，类型==>(资源路径,预设)
     private Dictionary<string, object> mDic = new Dictionary<string, object>();

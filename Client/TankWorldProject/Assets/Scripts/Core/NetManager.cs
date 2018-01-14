@@ -20,13 +20,12 @@ public class NetManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
-        Init();
     }
 
     /// <summary>
     /// smartfoxserver 客户端对象
     /// </summary>
-    private SmartFox _sfs = new SmartFox();
+    private SmartFox _sfs = new SmartFox(true);
 
     /// <summary>
     /// 返回SmartFox对象
@@ -38,7 +37,7 @@ public class NetManager : MonoBehaviour
     /// <summary>
     /// 网络管理器初始化函数
     /// </summary>
-    private void Init()
+    public void Init()
     {
         //用于单例化
 

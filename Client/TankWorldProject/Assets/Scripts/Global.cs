@@ -4,13 +4,17 @@ using Sfs2X.Requests;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Global : MonoBehaviour {
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class Global : MonoBehaviour
+{
 
     public string ServerIP = "127.0.0.1";
     public int ServerPort = 9933;
     public string defaultZone = "BasicZone";
     public string StartUIName = "AccountUI";
-    
+
 
     private NetManager net;
     private EventManager evt;
@@ -24,27 +28,52 @@ public class Global : MonoBehaviour {
     public PlayerVo me = new PlayerVo();
 
     public static LoadingUI mLoadingUI;
+    public Camera Camera2D = null;
+    public Camera Camera3D = null;
 
+    private Transform uiroot2d = null;
+    private static Global _instance;
+
+    //
+    public static Global GetInstance()
+    {
+          return _instance;
+    }
+    /// <summary>
+    /// 当前自己所处房间
+    /// </summary>
     public static Room curRoom
     {
         get { return NetManager.GetInstance().sfs.LastJoinedRoom; }
     }
 
-    public static  NetManager Net
+    /// <summary>
+    /// 网络通信类
+    /// </summary>
+    public static NetManager Net
     {
         get { return NetManager.GetInstance(); }
     }
 
+    /// <summary>
+    /// 网络消息管理器
+    /// </summary>
     public static EventManager Evt
     {
         get { return EventManager.GetInstance(); }
     }
 
+    /// <summary>
+    /// UI管理器，负责管理场景中所有UI
+    /// </summary>
     public static UIManager Ui
     {
         get { return UIManager.GetInstance(); }
     }
 
+    /// <summary>
+    /// 资源管理器
+    /// </summary>
     public static ResManager Res
     {
         get { return ResManager.GetInstance(); }
@@ -54,18 +83,14 @@ public class Global : MonoBehaviour {
 
     #region  单例模式实现
 
-    private static Global _instance;
-    public static Global Instance
-    {
-        get { return _instance; }
-    }
+   
     void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
-            root = this.transform.Find("UI");
-
+            root = this.transform.Find("UI2D");
+            Camera2D = this.transform.Find("Camera2D").GetComponent<Camera>();
             //创建LoadingUI
             GameObject go = new GameObject(typeof(LoadingUI).Name);
             go.transform.SetParent(root);
@@ -83,16 +108,14 @@ public class Global : MonoBehaviour {
             rtf.offsetMax = new Vector2(0, 0);
             rtf.sizeDelta = new Vector2(Screen.width, Screen.height);
             skin.transform.localScale = Vector3.one;
-            skin.transform.localPosition=Vector3.zero;
-              
-            mLoadingUI=go.AddComponent<LoadingUI>();
+            skin.transform.localPosition = Vector3.zero;
+
+            mLoadingUI = go.AddComponent<LoadingUI>();
 
             isLoading = false;
- 
 
-
-
-
+            Screen.SetResolution(1280, 800, false);
+            //框架主入口
             Init();
             DontDestroyOnLoad(this.gameObject);
         }
@@ -105,13 +128,20 @@ public class Global : MonoBehaviour {
     /// <summary>
     /// 全局类初始化
     /// </summary>
-    private void Init()
+    public void Init()
     {
         cfg = this.gameObject.AddComponent<ConfigManager>();
+        cfg.Init();
         net = this.gameObject.AddComponent<NetManager>();
+        net.Init();
         evt = this.gameObject.AddComponent<EventManager>();
+        evt.Init();
         res = this.gameObject.AddComponent<ResManager>();
+        res.Init();
         ui = this.gameObject.AddComponent<UIManager>();
+        ui.Init();
+
+
 
 
         Global.Ui.SwitchUI(StartUIName);
@@ -120,14 +150,6 @@ public class Global : MonoBehaviour {
 
     #endregion
 
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public static void Log(params object[] args)
     {
@@ -145,7 +167,7 @@ public class Global : MonoBehaviour {
     /// <param name="data">要发送的参数</param>
     public static void SendSFSRequest(IRequest request)
     {
-        Global.Instance.net.SendSFSRequest(request);
+        Global.GetInstance().net.SendSFSRequest(request);
     }
 
     /// <summary>
@@ -155,7 +177,7 @@ public class Global : MonoBehaviour {
     /// <param name="data">要发送的参数</param>
     /// <param name="room">null,扩展请求将发送区，不为空，扩展将发送到指定房间</param>
     /// <param name="useUDP">是否使用UDP</param>
-    public static void SendExtRequest(string cmd,ISFSObject data=null,Room room=null,bool useUDP = false)
+    public static void SendExtRequest(string cmd, ISFSObject data = null, Room room = null, bool useUDP = false)
     {
         NetManager.GetInstance().SendExtRequest(cmd, data, room, useUDP);
     }
@@ -172,10 +194,10 @@ public class Global : MonoBehaviour {
 
     public delegate void LoadCompleteHandler(string scenename);
     public event LoadCompleteHandler OnLoadComplete = null;
-    public void LoadScene(string sceneName, LoadCompleteHandler complete=null)
+    public void LoadScene(string sceneName, LoadCompleteHandler complete = null)
     {
         isLoading = true;
-        mLoadingUI.LoadScene(sceneName,complete);
+        mLoadingUI.LoadScene(sceneName, complete);
     }
 
     public static bool isLoading
@@ -187,12 +209,13 @@ public class Global : MonoBehaviour {
             { mLoadingUI.transform.SetAsFirstSibling(); }
 
         }
-        get {
+        get
+        {
             return mLoadingUI.gameObject.activeSelf;
         }
     }
 
 
-    
+
 
 }

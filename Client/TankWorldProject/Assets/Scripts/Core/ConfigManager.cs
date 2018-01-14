@@ -20,10 +20,9 @@ public class ConfigManager : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
-        Init();
     }
 
-    private void Init()
+    public void Init()
     {
         _tankConfig = new TankConfig();
         _tankConfig.Init();

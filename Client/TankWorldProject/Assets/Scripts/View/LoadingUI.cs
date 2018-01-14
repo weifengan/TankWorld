@@ -58,9 +58,9 @@ public class LoadingUI : MonoBehaviour {
 
         if (bar.fillAmount == 1)
         {
-           
-            async.allowSceneActivation = true;
+
             Global.isLoading = false;
+            async.allowSceneActivation = true;
             UIManager.GetInstance().Display(true);
             if (handler != null)
             {

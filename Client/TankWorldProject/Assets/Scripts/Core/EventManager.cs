@@ -19,7 +19,6 @@ using Sfs2X.Core;
     private void Awake()
     {
         _instance = this;
-        Init();
     }
 
     /// <summary>

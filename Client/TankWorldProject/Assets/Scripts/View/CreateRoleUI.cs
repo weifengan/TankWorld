@@ -54,8 +54,8 @@ public class CreateRoleUI : BaseUI {
         if (evt.Data.GetBool("success"))
         {
             //更新昵称和角色id
-            Global.Instance.me.Nick = inputNick.text;
-            Global.Instance.me.Role = curTankData.id;
+            Global.GetInstance().me.Nick = inputNick.text;
+            Global.GetInstance().me.Role = curTankData.id;
             //返回Lobby
             UIManager.GetInstance().SwitchUI("HallUI");
         }else

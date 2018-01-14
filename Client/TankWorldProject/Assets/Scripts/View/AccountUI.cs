@@ -65,15 +65,29 @@ public class AccountUI : BaseUI
         Global.AddEventListener(SFSEvent.CONNECTION, OnConnectionHandler);
 
         //用户匿名登录到区
-        Global.AddEventListener(SFSEvent.LOGIN, (NEvent e) =>
+        Global.AddEventListener(SFSEvent.LOGIN, (NEvent evt) =>
         {
-            Type = AccountUIType.Login;
+            User user = evt.BaseEvt.Params["user"] as User;
+            print(user);
+            //存储自身基本信息
+            Global.GetInstance().me.sfsUser = user;
+            Global.GetInstance().me.isLogin = true;
         });
 
         Global.AddEventListener(ExtType.UserLogin, OnLoginResultHandler);
-        Global.AddEventListener(ExtType.UserReg, OnRegResultHandler);
-        NetManager.GetInstance().Connect(Global.Instance.ServerIP, Global.Instance.ServerPort);
+        //Global.AddEventListener(ExtType.UserReg, OnRegResultHandler);
+        Global.AddEventListener(SFSEvent.LOGIN, (NEvent e)=> {
 
+
+        });
+        Global.AddEventListener(SFSEvent.LOGIN_ERROR, OnLoginErrorHandler);
+        NetManager.GetInstance().Connect(Global.GetInstance().ServerIP, Global.GetInstance().ServerPort);
+
+    }
+
+    private void OnLoginErrorHandler(NEvent evt)
+    {
+        UIManager.GetInstance().Alert(evt.BaseEvt.Params["errorMessage"].ToString());
     }
 
     private void OnRegResultHandler(NEvent evt)
@@ -84,22 +98,14 @@ public class AccountUI : BaseUI
 
     private void OnLoginResultHandler(NEvent evt)
     {
-        if (!evt.Data.GetBool("success"))
-        {
-            UIManager.GetInstance().Alert(evt.Data.GetUtfString("info"));
-            return;
-        }
-
-        //存储自身基本信息
-        Global.Instance.me.isLogin = true;
-        Global.Instance.me.UserName = evt.Data.GetUtfString("username");
-        Global.Instance.me.Diamond = evt.Data.GetInt("diamond");
-        Global.Instance.me.Coin = evt.Data.GetInt("coin");
-        Global.Instance.me.Nick = evt.Data.GetUtfString("nick");
-        Global.Instance.me.Role = evt.Data.GetInt("role");
+        Global.GetInstance().me.UserName = evt.Data.GetUtfString("username");
+        Global.GetInstance().me.Diamond = evt.Data.GetInt("diamond");
+        Global.GetInstance().me.Coin = evt.Data.GetInt("coin");
+        Global.GetInstance().me.Nick = evt.Data.GetUtfString("nick");
+        Global.GetInstance().me.Role = evt.Data.GetInt("role");
 
         ///根据呢称是否存在，进行场景跳转
-        if (string.IsNullOrEmpty(Global.Instance.me.Nick))
+        if (string.IsNullOrEmpty(Global.GetInstance().me.Nick))
         {
             ///创建角色场景 
             UIManager.GetInstance().SwitchUI("CreateRoleUI");
@@ -124,10 +130,12 @@ public class AccountUI : BaseUI
                     UIManager.GetInstance().Alert("用户名和密码不能为空!");
                     return;
                 }
-                SFSObject data = new SFSObject();
-                data.PutUtfString("username", loginInptUser.text.Trim());
-                data.PutUtfString("password", loginInptPwd.text.Trim());
-                Global.SendExtRequest(ExtType.UserLogin, data);
+
+                Global.SendSFSRequest(new LoginRequest(loginInptUser.text.Trim(), loginInptPwd.text.Trim(), Global.GetInstance().defaultZone));
+                //SFSObject data = new SFSObject();
+                //data.PutUtfString("username", loginInptUser.text.Trim());
+                //data.PutUtfString("password", loginInptPwd.text.Trim());
+                //Global.SendExtRequest(ExtType.UserLogin, data);
                 break;
             case "btnReg":
 
@@ -194,8 +202,9 @@ public class AccountUI : BaseUI
 
     private void OnConnectionHandler(NEvent evt)
     {
-       //匿名登录到区
-      Global.SendSFSRequest(new LoginRequest("", "", Global.Instance.defaultZone));
+        //匿名登录到区
+        //Global.SendSFSRequest(new LoginRequest("", "", Global.GetInstance().defaultZone));
+        Type = AccountUIType.Login;
     }
 
 

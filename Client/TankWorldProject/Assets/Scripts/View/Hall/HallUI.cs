@@ -23,6 +23,7 @@ public class HallUI : BaseUI
     //默认模式
     private int curMode = 1;
 
+    private Transform tankContainer;
     
     protected override void OnAwake()
     {
@@ -35,12 +36,22 @@ public class HallUI : BaseUI
 
     
 
-        txtNick.text = Global.Instance.me.Nick;
-        txtCoin.text = Global.Instance.me.Coin.ToString();
-        txtDiamond.text = Global.Instance.me.Diamond.ToString();
+        txtNick.text = Global.GetInstance().me.Nick;
+        txtCoin.text = Global.GetInstance().me.Coin.ToString();
+        txtDiamond.text = Global.GetInstance().me.Diamond.ToString();
 
         mTlgJingJi = this.Skin.transform.Find("left/tab/TlgJingJi").GetComponent<Toggle>();
         mTlgWinBoard = this.Skin.transform.Find("left/tab/TlgWinBoard").GetComponent<Toggle>();
+
+
+        ///根据角色id创建坦克
+        tankContainer = this.Skin.transform.Find("tank3d/container");
+        tankContainer.localPosition = new Vector3(0, 0,-688);
+        print(tankContainer.localPosition);
+        GameObject tank = ResManager.GetInstance().GetRes<GameObject>("StaticPlayer/tank" + Global.GetInstance().me.Role);
+        tank.transform.SetParent(tankContainer);
+        tank.transform.localScale = Vector3.one;
+        tank.transform.localPosition = Vector3.zero;
 
         mTlgJingJi.gameObject.AddComponent<HallBoardToggle>().Init(this.Skin.transform.Find("left/content/jingji").gameObject);
         mTlgWinBoard.gameObject.AddComponent<HallBoardToggle>().Init(this.Skin.transform.Find("left/content/shengju").gameObject);
@@ -53,8 +64,9 @@ public class HallUI : BaseUI
     {
         if (evt.Data.GetBool("success"))
         {
-           
-            Global.Instance.LoadScene("Game",(string sn)=>{
+
+            Global.GetInstance().LoadScene("Game",(string sn)=>{
+              
                 UIManager.GetInstance().SwitchUI("GameUI");
             });
             

@@ -37,12 +37,11 @@ public class UIManager : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
-        root = this.transform.Find("UI").GetComponent<RectTransform>();
+        root = this.transform.Find("UI2D").GetComponent<RectTransform>();
         raycaster = root.GetComponent<GraphicRaycaster>();
-        Init();
     }
     // Use this for initialization
-    void Init() {
+    public void Init() {
         Global.Log("【" + this.GetType().Name + "】初始化成功！");
     }
 
@@ -69,7 +68,6 @@ public class UIManager : MonoBehaviour {
     /// <param name="args">参数列表</param>
     public void SwitchUI(string name, params object[] args)
     {
-        print("switch UI" + name);
         GameObject scene = new GameObject(name);
         RectTransform rtf = scene.AddComponent<RectTransform>();
         //设置UI容器大小

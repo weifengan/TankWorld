@@ -18,8 +18,7 @@ public class HallBoardToggle : MonoBehaviour {
         toggle.onValueChanged.AddListener(OnToggleChanged);
         if (this.name == "TlgJingJi")
         {
-            print("请求数据=-===========");
-            RefreshData();
+            //RefreshData();
         }
 
         Global.AddEventListener(ExtType.FetchBoardList, onFetchBoardListHandler);
