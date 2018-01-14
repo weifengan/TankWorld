@@ -52,6 +52,8 @@ public class ZoneExtension extends SFSExtension {
 		db=DBManager.GetInstance();
 		db.Init(this.getParentZone().getDBManager());
 		
+		this.addEventHandler(SFSEventType.USER_LOGIN, SFSUserLoginHandler.class);
+		this.addEventHandler(SFSEventType.USER_JOIN_ZONE, SFSUserJoinZoneHandler.class);
 		//添加用户登录扩展请求
 	    this.addRequestHandler(ExtType.UserLogin, ExtUserLoginHandler.class);
 	    this.addRequestHandler(ExtType.UserReg, ExtUserRegisterHandler.class);

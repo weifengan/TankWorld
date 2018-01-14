@@ -27,7 +27,6 @@ public class ExtUserLoginHandler extends BaseClientRequestHandler {
 	@Override
 	public void handleClientRequest(User arg0, ISFSObject arg1) {
 		// TODO Auto-generated method stub
-		
 		//获取用户名和密码
 		String name=arg1.getUtfString("username");
 		String pwd=arg1.getUtfString("password");
@@ -57,12 +56,15 @@ public class ExtUserLoginHandler extends BaseClientRequestHandler {
 				resData.putInt("coin",(int)user.get("acc_coin"));
 				resData.putInt("diamond",(int)user.get("acc_diamond"));
 				resData.putUtfString("info", "登陆成功!");
+				arg0.isPlayer();
+				arg0.isLocal();
 				arg0.setName(name);
 				Room roleRoom=this.getParentExtension().getParentZone().getRoomByName("roleroom");
 				Room lobby=this.getParentExtension().getParentZone().getRoomByName("lobby");
 				try {
 					if(resData.getUtfString("nick").length()==0) {
 						trace("用户"+arg0+"登录RoleRoom成功!");
+						
 						//roleRoom.addUser(arg0);
 						this.getApi().joinRoom(arg0, roleRoom);
 					}else {

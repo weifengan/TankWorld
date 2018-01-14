@@ -17,11 +17,11 @@ public class ExtJoinGameHandler extends BaseClientRequestHandler {
 		// TODO Auto-generated method stub
         int mode=arg1.getInt("mode");
 
+        trace("用户查找匹配模式的游戏房间");
         List<Room> rooms=this.getParentExtension().getParentZone().getRoomList();
         
         Room room=this.getParentExtension().getParentZone().getRoomByName("game1");
-        
-        
+           
         SFSObject outData=new SFSObject();
         outData.putInt("mode", mode);
         
@@ -36,9 +36,7 @@ public class ExtJoinGameHandler extends BaseClientRequestHandler {
 		}
         
         this.send(ExtType.JoinGame, outData, arg0);
-        
-        
-        
+ 
 	}
 
 }
