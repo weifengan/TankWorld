@@ -46,8 +46,6 @@ public class HallUI : BaseUI
 
         ///根据角色id创建坦克
         tankContainer = this.Skin.transform.Find("tank3d/container");
-        tankContainer.localPosition = new Vector3(0, 0,-688);
-        print(tankContainer.localPosition);
         GameObject tank = ResManager.GetInstance().GetRes<GameObject>("StaticPlayer/tank" + Global.GetInstance().me.Role);
         tank.transform.SetParent(tankContainer);
         tank.transform.localScale = Vector3.one;

@@ -28,8 +28,6 @@ public class Global : MonoBehaviour
     public PlayerVo me = new PlayerVo();
 
     public static LoadingUI mLoadingUI;
-    public Camera Camera2D = null;
-    public Camera Camera3D = null;
 
     private Transform uiroot2d = null;
     private static Global _instance;
@@ -90,7 +88,7 @@ public class Global : MonoBehaviour
         {
             _instance = this;
             root = this.transform.Find("UI2D");
-            Camera2D = this.transform.Find("Camera2D").GetComponent<Camera>();
+
             //创建LoadingUI
             GameObject go = new GameObject(typeof(LoadingUI).Name);
             go.transform.SetParent(root);
