@@ -27,31 +27,10 @@ public class ZoneExtension extends SFSExtension {
 
 	public static DBManager db;
 	public void init() {
-	
-		//读取xml配置文件，创建预设房间
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		
-		try {
-            //创建DocumentBuilder对象
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            //通过DocumentBuilder对象的parser方法加载books.xml文件到当前项目下
-            Document document = db.parse("roomlist.xml");
-		}catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }        
-		
-		
-		
 		Tools.Init(this);
 		//初始化数据库连接
 		//初始化数据库
 		db=DBManager.GetInstance();
-		db.Init(this.getParentZone().getDBManager());
-		
 		this.addEventHandler(SFSEventType.USER_LOGIN, SFSUserLoginHandler.class);
 		this.addEventHandler(SFSEventType.USER_JOIN_ZONE, SFSUserJoinZoneHandler.class);
 		//添加用户登录扩展请求

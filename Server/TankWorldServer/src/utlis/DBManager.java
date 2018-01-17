@@ -127,20 +127,6 @@ public class DBManager {
 		return list;
 	}
 	
-	
-	public void CheckUserLogin(String user,String password) {
-		
-		//构建SQL语句
-		String sql="select * from account where acc_user='"+user+"'";
-		try {
-			Statement stmt = conn.createStatement();
-			//执行SQL语句
-			ResultSet rs = stmt.executeQuery(sql);
-			
-		    Tools.print(rs.getRow());
-		}catch(SQLException e) {
-			Tools.print(e.getMessage());
-		}
-	}
+	 
 }
 
