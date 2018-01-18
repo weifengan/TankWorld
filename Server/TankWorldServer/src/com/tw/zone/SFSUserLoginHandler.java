@@ -1,16 +1,11 @@
 package com.tw.zone;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.smartfoxserver.bitswarm.sessions.Session;
-import com.smartfoxserver.v2.api.LoginErrorHandler;
+import com.smartfoxserver.bitswarm.sessions.ISession;
 import com.smartfoxserver.v2.core.ISFSEvent;
 import com.smartfoxserver.v2.core.SFSEventParam;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
-import com.smartfoxserver.v2.entities.variables.UserVariable;
 import com.smartfoxserver.v2.exceptions.SFSErrorCode;
 import com.smartfoxserver.v2.exceptions.SFSErrorData;
 import com.smartfoxserver.v2.exceptions.SFSException;
@@ -22,36 +17,46 @@ import utlis.DBManager;
 public class SFSUserLoginHandler extends BaseServerEventHandler {
 
 	@Override
-	public void handleServerEvent(ISFSEvent event) throws SFSException {
-		// 获取客户端用来登录的账户名
-		String name = (String) event.getParameter(SFSEventParam.LOGIN_NAME);
+	public void handleServerEvent(ISFSEvent arg0) throws SFSException {
 
-		// 获取客户端用来登录的密码
-		String pwd = (String) event.getParameter(SFSEventParam.LOGIN_PASSWORD);
+		// 获取登录账号及密码
+		String username = (String) arg0.getParameter(SFSEventParam.LOGIN_NAME);
+		String password = (String) arg0.getParameter(SFSEventParam.LOGIN_PASSWORD);
+		ISession session = (ISession) arg0.getParameter(SFSEventParam.SESSION);
 
-		// 使用数据库根据用户名进行查询
-		List<HashMap> accounts = DBManager.GetInstance().doQuery("select * from account where acc_name='" + name + "'");
+		try {
+			// 进行数据库查询
+			List<HashMap> accounts = DBManager.GetInstance()
+					.doQuery("select * from account where acc_name='" + username + "'");
 
-		// 判断是否查询到记录
-		if (accounts.size() < 1) {
-			SFSErrorData data = new SFSErrorData(SFSErrorCode.LOGIN_BAD_USERNAME);
-			data.addParameter(name);
-			throw new SFSLoginException("账户{" + name + "} 不存在", data);
-		} else {
-			// 取出查到的账户
-			HashMap user = accounts.get(0);
-			// 获取session
-			Session session = (Session) event.getParameter(SFSEventParam.SESSION);
-			// 校验密码(检验密码时，必须使用SFS的checkSecurePassword
-			if (!this.getApi().checkSecurePassword(session, user.get("acc_pwd").toString(), pwd)) {
-				SFSErrorData data = new SFSErrorData(SFSErrorCode.LOGIN_BAD_PASSWORD);
-				data.addParameter(user.get("acc_pwd").toString());
-				throw new SFSLoginException("密码不正确", data);
+			// 判断是否查询到记录
+			if (accounts.size() <= 0) {
+				// 未找到账号
+				SFSErrorData errData = new SFSErrorData(SFSErrorCode.LOGIN_BAD_USERNAME);
+				errData.addParameter(username);
+				throw new SFSLoginException("无法找到些用户:" + username, errData);
+
 			} else {
-				trace("用户" + name + "登录成功!");
-			}
+				// 取出查到的账户
+				HashMap user = accounts.get(0);
+				// 获取数据库中密码
+				String dbPwd = user.get("acc_pwd").toString();
 
+				// Verify the secure password
+				if (!getApi().checkSecurePassword(session, dbPwd, password)) {
+					SFSErrorData data = new SFSErrorData(SFSErrorCode.LOGIN_BAD_PASSWORD);
+					data.addParameter(username);
+					// Sends response if user gave incorrect password
+					throw new SFSLoginException("用户名或密码错误! ", data);
+				}
+			}
+		} catch (Exception e) {
+			//数据库执行登录验证失败
+			SFSErrorData errData = new SFSErrorData(SFSErrorCode.GENERIC_ERROR);
+			errData.addParameter("" + e.getMessage());
+			throw new SFSLoginException(e.getMessage(), errData);
 		}
+
 	}
 
 }

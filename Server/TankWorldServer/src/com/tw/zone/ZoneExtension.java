@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
+import com.smartfoxserver.v2.SmartFoxServer;
 import com.smartfoxserver.v2.api.CreateRoomSettings;
 import com.smartfoxserver.v2.api.CreateRoomSettings.RoomExtensionSettings;
 import com.smartfoxserver.v2.config.ZoneSettings.ExtensionSettings;
@@ -33,10 +34,9 @@ public class ZoneExtension extends SFSExtension {
 		db=DBManager.GetInstance();
 		this.addEventHandler(SFSEventType.USER_LOGIN, SFSUserLoginHandler.class);
 		this.addEventHandler(SFSEventType.USER_JOIN_ZONE, SFSUserJoinZoneHandler.class);
-		//添加用户登录扩展请求
-	    this.addRequestHandler(ExtType.UserLogin, ExtUserLoginHandler.class);
-	    this.addRequestHandler(ExtType.UserReg, ExtUserRegisterHandler.class);
-	    
+		//添加用户登录处理
+		this.addEventHandler(SFSEventType.USER_LOGIN, SFSUserLoginHandler.class);
+	    this.addEventHandler(SFSEventType.USER_JOIN_ZONE, SFSUserJoinZoneHandler.class);
 	    //重呢称检测
 	    this.addRequestHandler(ExtType.UpdateRole, ExtUpdateRoleHandler.class);
 	    this.addRequestHandler(ExtType.FetchBoardList, ExtFetchBoardListHandler.class);
