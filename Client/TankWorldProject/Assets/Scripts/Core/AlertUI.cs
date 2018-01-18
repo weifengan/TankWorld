@@ -16,9 +16,9 @@ public class AlertUI : BaseUI {
         base.OnAwake();
         this.InitSkin("UI/AlertUI");
 
-        mContent = this.GetComponentByName<Text>("content");
-        mTitle = this.GetComponentByName<Text>("title");
-        btnOk = this.GetComponentByName<Button>("btnOK");
+        mContent = this.FetchComponentByName<Text>("content");
+        mTitle = this.FetchComponentByName<Text>("title");
+        btnOk = this.FetchComponentByName<Button>("btnOK");
    
 
         btnOk.onClick.AddListener(delegate ()

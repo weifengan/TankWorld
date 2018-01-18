@@ -22,11 +22,11 @@ public class ConfirmUI : BaseUI {
         base.OnAwake();
         this.InitSkin("UI/ConfirmUI");
 
-        mContent = this.GetComponentByName<Text>("content");
-        mTitle = this.GetComponentByName<Text>("title");
+        mContent = this.FetchComponentByName<Text>("content");
+        mTitle = this.FetchComponentByName<Text>("title");
 
-        btnYes = this.GetComponentByName<Button>("btnYes");
-        btnNo = this.GetComponentByName<Button>("btnNo");
+        btnYes = this.FetchComponentByName<Button>("btnYes");
+        btnNo = this.FetchComponentByName<Button>("btnNo");
 
         btnYes.onClick.AddListener(delegate () {
             if (OnConfirmHandler != null)

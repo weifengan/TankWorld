@@ -53,47 +53,62 @@ public class AccountUI : BaseUI
         regInptPwd = mReg.transform.Find("InputPwd").GetComponent<InputField>();
         regInptPwd2 = mReg.transform.Find("InputPwd2").GetComponent<InputField>();
 
-        Button[] btns = this.transform.GetComponentsInChildren<Button>(true);
-        foreach (Button item in btns)
-        {
-            item.onClick.AddListener(delegate ()
+
+        #region 监听服务器连接状态
+        //连接成功检测
+        Global.AddEventListener(SFSEvent.CONNECTION,(NEvent e)=> {
+            //判断是否成功服务器连接成功
+            if ((bool)e.BaseEvt.Params["success"])
             {
-                OnButtonClickHandler(item);
-            });
-        }
+                Global.print("连接"+Global.Net.sfs.CurrentIp+":"+Global.Net.sfs.CurrentPort+"成功!");
+                
+                //显示登录框UI
+                Type = AccountUIType.Login;
+            }
+            else
+            {
+                UIManager.GetInstance().Alert("无法连接到服务器,请检查网络连接!");
+            }
+        });
 
-        Global.AddEventListener(SFSEvent.CONNECTION, OnConnectionHandler);
+        //连接丢失检测
+        Global.AddEventListener(SFSEvent.CONNECTION_LOST, (NEvent evt) => {
 
-        //用户匿名登录到区
+            //显示连接丢失提示
+            UIManager.GetInstance().Alert(evt.BaseEvt.Params["errorMessage"].ToString());
+
+        });
+        #endregion
+
+
+        #region 监听用户登录状态
+
         Global.AddEventListener(SFSEvent.LOGIN, (NEvent evt) =>
         {
+            //获取当前登录成功的用户对象
             User user = evt.BaseEvt.Params["user"] as User;
-            print(user);
+
             //存储自身基本信息
             Global.GetInstance().me.sfsUser = user;
-            Global.GetInstance().me.isLogin = true;
+            Global.GetInstance().me.isLogin = true;     
         });
 
-        Global.AddEventListener(ExtType.UserLogin, OnLoginResultHandler);
-        //Global.AddEventListener(ExtType.UserReg, OnRegResultHandler);
-        Global.AddEventListener(SFSEvent.LOGIN, (NEvent e)=> {
 
-
+        //登录失败监听
+        Global.AddEventListener(SFSEvent.LOGIN_ERROR, (NEvent evt) => {
+            //提示登录错误信息
+            UIManager.GetInstance().Alert(evt.BaseEvt.Params["errorMessage"].ToString());
         });
-        Global.AddEventListener(SFSEvent.LOGIN_ERROR, OnLoginErrorHandler);
+        #endregion
+
+
+
+
+        Global.AddEventListener(ExtType.UserLoginResult, OnLoginResultHandler);
+
+
+        //开始连接服务器
         NetManager.GetInstance().Connect(Global.GetInstance().ServerIP, Global.GetInstance().ServerPort);
-
-    }
-
-    private void OnLoginErrorHandler(NEvent evt)
-    {
-        UIManager.GetInstance().Alert(evt.BaseEvt.Params["errorMessage"].ToString());
-    }
-
-    private void OnRegResultHandler(NEvent evt)
-    {
-
-        print(evt.Data.GetUtfString("info"));
     }
 
     private void OnLoginResultHandler(NEvent evt)
@@ -119,9 +134,8 @@ public class AccountUI : BaseUI
         
     }
 
-    private void OnButtonClickHandler(Button button)
+    protected override void OnClickHandler(GameObject button)
     {
-        
         switch (button.name)
         {
             case "btnLogin":
@@ -132,10 +146,6 @@ public class AccountUI : BaseUI
                 }
 
                 Global.SendSFSRequest(new LoginRequest(loginInptUser.text.Trim(), loginInptPwd.text.Trim(), Global.GetInstance().defaultZone));
-                //SFSObject data = new SFSObject();
-                //data.PutUtfString("username", loginInptUser.text.Trim());
-                //data.PutUtfString("password", loginInptPwd.text.Trim());
-                //Global.SendExtRequest(ExtType.UserLogin, data);
                 break;
             case "btnReg":
 
@@ -183,29 +193,5 @@ public class AccountUI : BaseUI
             return _type;
         }
     }
-
-
-    /// <summary>
-    /// 登录按钮被点击处理
-    /// </summary>
-    private void OnStart2LoginHandler()
-    {
-
-    }
-
-
-
-    private void OnLoginHandler(NEvent evt)
-    {
-
-    }
-
-    private void OnConnectionHandler(NEvent evt)
-    {
-        //匿名登录到区
-        //Global.SendSFSRequest(new LoginRequest("", "", Global.GetInstance().defaultZone));
-        Type = AccountUIType.Login;
-    }
-
 
 }

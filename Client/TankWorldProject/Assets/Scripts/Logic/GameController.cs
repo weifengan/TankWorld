@@ -17,9 +17,9 @@ public class GameController : MonoBehaviour
     void Start()
     {
 
-        Global.AddEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoomHandler);
-        Global.AddEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoomHandler);
-        InitPlayer();
+        //Global.AddEventListener(SFSEvent.USER_ENTER_ROOM, OnUserEnterRoomHandler);
+        //Global.AddEventListener(SFSEvent.USER_EXIT_ROOM, OnUserExitRoomHandler);
+        //InitPlayer();
 
     }
 

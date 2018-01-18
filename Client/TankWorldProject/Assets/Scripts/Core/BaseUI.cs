@@ -185,24 +185,23 @@ public class BaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// 通过名字获取游戏对象
+    /// 通过名称获取游戏物体的Transform
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">游戏对象</param>
     /// <returns></returns>
-    public GameObject GetChildGameObject(string name)
+    public RectTransform FetchTransform(string name)
     {
-        List<Transform> trans = new List<Transform>();
-        this.Skin.transform.GetComponentsInChildren<Transform>(true, trans);
-
+        List<RectTransform> trans = new List<RectTransform>();
+        //获取皮肤上的所有RectTransform组件
+        this.Skin.transform.GetComponentsInChildren<RectTransform>(true, trans);
         foreach (var item in trans)
         {
             if (item.name.Equals(name))
             {
-                return item.gameObject;
+                return item;
             }
         }
         return null;
-
     }
 
     /// <summary>
@@ -211,7 +210,7 @@ public class BaseUI : MonoBehaviour
     /// <typeparam name="T"></typeparam>
     /// <param name="name"></param>
     /// <returns></returns>
-    public T GetComponentByName<T>(string name) where T : MonoBehaviour
+    public T FetchComponentByName<T>(string name) where T : MonoBehaviour
     {
         T[] trans = this.Skin.transform.GetComponentsInChildren<T>();
 

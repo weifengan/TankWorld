@@ -27,7 +27,7 @@ public class CameraCtrl : MonoBehaviour {
     }
 
     private float zoomV = 0;
-    void FixedUpdate()
+    void LateUpdate()
     {
         if (target == null) return;
 

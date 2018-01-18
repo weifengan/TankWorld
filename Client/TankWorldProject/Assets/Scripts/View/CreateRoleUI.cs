@@ -31,7 +31,7 @@ public class CreateRoleUI : BaseUI {
         tankContainer = this.Skin.transform.Find("tankcontainer");
         tankCamera = this.Skin.transform.Find("tankcontainer/camera").GetComponent<Camera>() ;
 
-        inputNick = this.GetComponentByName<InputField>("InputNick");
+        inputNick = this.FetchComponentByName<InputField>("InputNick");
         txtTitle  = this.Skin.transform.Find("detail/title").GetComponent<Text>(); 
         txtBlood  = this.Skin.transform.Find("detail/blood").GetComponent<Text>();
         txtAttack = this.Skin.transform.Find("detail/attack").GetComponent<Text>();
