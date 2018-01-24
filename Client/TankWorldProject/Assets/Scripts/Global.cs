@@ -87,6 +87,10 @@ public class Global : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+
+            _instance.ServerIP = ConfigReader.GetInstance().ServerIp;
+            _instance.ServerPort = ConfigReader.GetInstance().ServerPort;
+
             root = this.transform.Find("UI2D");
 
             //创建LoadingUI
